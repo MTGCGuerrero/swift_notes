@@ -9,20 +9,24 @@ import SwiftUI
 
 struct Home: View {
     @State var notes = [Note]()
-    
+    @State var showAdd = false
     var body: some View {
         
         NavigationView {
             List(self.notes){ note in
                 Text(note.note).padding()
             }
+            .sheet(isPresented: $showAdd, content: {
+                AddNoteView()
+            })
             .onAppear(perform: {
                 fetchNotes()
             })
             .navigationTitle("Notes")
             .navigationBarItems(trailing: Button(
                 action: {
-                    print("Add a note")
+                    self.showAdd.toggle()
+                    print("Adding a note")
                 }, label: {
                     Text("Add")
                 }
